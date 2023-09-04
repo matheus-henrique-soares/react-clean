@@ -1,19 +1,21 @@
 import { type HttpPostClient } from 'data/protocols/http/http-post-client'
-import { makeHttpPostClientMock } from '@/data/test/mock-http-client'
+import { HttpPostClientMock } from '@/data/test/mock-http-client'
 import { RemoteAuthentication } from './remote-authentication'
 import { mockAuthentication } from '@/domain/test/mock-authentication'
 import { HttpStatusCode } from '@/data/protocols/http/http-response'
 import { UnexpectedError } from '@/domain/errors/unexpected-error'
 import { InvalidCredentialsError } from '@/domain/errors/invalid-credentials-error'
+import { type AuthenticationParams } from '@/domain/usecases/authentication'
+import { type AccountModel } from '@/domain/models/account/account-model'
 import { faker } from '@faker-js/faker'
 
 type SutTypes = {
   sut: RemoteAuthentication
-  httpPostClient: HttpPostClient
+  httpPostClient: HttpPostClient<AuthenticationParams, AccountModel>
 }
 
 const makeSut = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClient = makeHttpPostClientMock()
+  const httpPostClient = new HttpPostClientMock<AuthenticationParams, AccountModel>()
   const sut = new RemoteAuthentication(url, httpPostClient)
   return {
     sut,
