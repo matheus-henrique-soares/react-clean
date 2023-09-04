@@ -1,4 +1,4 @@
-import { type HttpPostClient } from 'data/protocols/http/http-post-client'
+import { type HttpPostClient, type HttpPostClientParams } from 'data/protocols/http/http-post-client'
 import { RemoteAuthentication } from './remote-authentication'
 import { faker } from '@faker-js/faker'
 
@@ -11,8 +11,8 @@ const makeHttpPostClientStub = (): HttpPostClient => {
   class HttpPostClientStub implements HttpPostClient {
     url?: string
 
-    async post (url: string): Promise<void> {
-      this.url = url
+    async post (params: HttpPostClientParams): Promise<void> {
+      this.url = params.url
     }
   }
   return new HttpPostClientStub()
