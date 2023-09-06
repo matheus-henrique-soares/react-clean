@@ -6,9 +6,7 @@ export type HttpPostClientParams<T> = {
 }
 
 export interface HttpPostClient<T, R> {
-  url?: string
-  body?: T
-  response?: HttpResponse<R>
+  [propName: string]: any
 
   post: (params: HttpPostClientParams<T>) => Promise<HttpResponse<R>>
 }
