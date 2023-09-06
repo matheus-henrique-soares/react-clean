@@ -1,5 +1,4 @@
-import { type HttpPostClient, type HttpPostClientParams } from 'data/protocols/http/http-post-client'
-import { HttpStatusCode, type HttpResponse } from '@/data/protocols/http/http-response'
+import { type HttpPostClient, type HttpPostClientParams, type HttpResponse, HttpStatusCode } from '../protocols/http'
 
 export class HttpPostClientMock<T, U> implements HttpPostClient<T, U> {
   url?: string
