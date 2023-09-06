@@ -1,4 +1,4 @@
-import { type HttpPostClient, type HttpPostClientParams, type HttpResponse, HttpStatusCode } from '../protocols/http'
+import { type HttpPostClient, type HttpPostParams, type HttpResponse, HttpStatusCode } from '../protocols/http'
 
 export class HttpPostClientMock<T, U> implements HttpPostClient<T, U> {
   url?: string
@@ -7,7 +7,7 @@ export class HttpPostClientMock<T, U> implements HttpPostClient<T, U> {
     statusCode: HttpStatusCode.noContent
   }
 
-  async post (params: HttpPostClientParams<T>): Promise<HttpResponse<U>> {
+  async post (params: HttpPostParams<T>): Promise<HttpResponse<U>> {
     this.url = params.url
     this.body = params.body
     return await new Promise(resolve => { resolve(this.response) })
