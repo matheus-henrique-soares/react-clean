@@ -28,12 +28,24 @@ module.exports = {
         { loader: 'sass-loader' }
       ],
       exclude: /node_modules/
-    }]
+    },
+    {
+      test: /\.(jpe?g|png|gif|svg)$/i,
+      loader: 'file-loader',
+      options: {
+        name: '/public/icons/[name].[ext]'
+      }
+    }
+    ]
   },
   devServer: {
-    contentBase: './public',
-    writeToDisk: true,
-    historyApiFallback: true
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    historyApiFallback: true,
+    devMiddleware: {
+      writeToDisk: true
+    }
   },
   externals: {
     react: 'React',

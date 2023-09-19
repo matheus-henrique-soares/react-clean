@@ -20,5 +20,6 @@
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
-  }
+  },
+  "ignorePatterns": ["**/*.jpg"]
 }
