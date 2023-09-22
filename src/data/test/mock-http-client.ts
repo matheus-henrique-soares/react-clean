@@ -1,6 +1,12 @@
 import { type HttpPostClient, type HttpPostParams, type HttpResponse, HttpStatusCode } from '../protocols/http'
 
-export class HttpPostClientMock<T, U> implements HttpPostClient<T, U> {
+export interface HttpPostClientMockInterface<T, U> extends HttpPostClient<T, U> {
+  url?: string
+  body?: T
+  response: HttpResponse<U>
+}
+
+export class HttpPostClientMock<T, U> implements HttpPostClientMockInterface<T, U> {
   url?: string
   body?: T
   response: HttpResponse<U> = {
