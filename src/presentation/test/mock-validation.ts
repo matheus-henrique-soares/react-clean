@@ -1,22 +1,16 @@
 import { type Validation } from '@/presentation/protocols/validation'
 
-export interface ValidationSpy extends Validation {
+export interface ValidationStub extends Validation {
   errorMessage: string
-  fieldName: string
-  fieldValue: string
 }
 
-export const makeValidationSpy = (): ValidationSpy => {
-  class ValidationSpy implements ValidationSpy {
+export const makeValidationStub = (): ValidationStub => {
+  class ValidationStub implements ValidationStub {
     errorMessage: string
-    fieldName: string
-    fieldValue: string
 
     validate (fieldName: string, fieldValue: string): string {
-      this.fieldName = fieldName
-      this.fieldValue = fieldValue
       return this.errorMessage
     }
   }
-  return new ValidationSpy()
+  return new ValidationStub()
 }
