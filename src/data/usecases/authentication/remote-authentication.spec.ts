@@ -1,5 +1,5 @@
 import { RemoteAuthentication } from './remote-authentication'
-import { HttpPostClientMock, type HttpPostClientMockInterface } from '@/data/test'
+import { HttpPostClientMock } from '@/data/test'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { mockAuthentication, mockAccountModel } from '@/domain/test'
 import { type AuthenticationParams } from '@/domain/usecases'
@@ -9,7 +9,7 @@ import { faker } from '@faker-js/faker'
 
 type SutTypes = {
   sut: RemoteAuthentication
-  httpPostClient: HttpPostClientMockInterface<AuthenticationParams, AccountModel>
+  httpPostClient: HttpPostClientMock<AuthenticationParams, AccountModel>
 }
 
 const makeSut = (url: string = faker.internet.url()): SutTypes => {
