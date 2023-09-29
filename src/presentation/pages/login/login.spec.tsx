@@ -2,7 +2,7 @@ import React from 'react'
 import { faker } from '@faker-js/faker'
 import { type RenderResult, render, cleanup, fireEvent } from '@testing-library/react'
 import Login from './login'
-import { makeValidationStub } from '@/presentation/test/mock-validation'
+import { ValidationStub } from '@/presentation/test/mock-validation'
 import { AuthenticationSpy } from '@/presentation/test/mock-authentication'
 
 type SutTypes = {
@@ -15,10 +15,10 @@ type SutParams = {
 }
 
 const makeSut = (params?: SutParams): SutTypes => {
-  const ValidationStub = makeValidationStub()
-  ValidationStub.errorMessage = params?.ValidationError
+  const validationStub = new ValidationStub()
+  validationStub.errorMessage = params?.ValidationError
   const authenticationSpy = new AuthenticationSpy()
-  const sut = render(<Login validation={ValidationStub} authentication={authenticationSpy}/>)
+  const sut = render(<Login validation={validationStub} authentication={authenticationSpy}/>)
   return { sut, authenticationSpy }
 }
 
