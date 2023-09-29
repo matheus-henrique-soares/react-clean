@@ -1,11 +1,11 @@
 import { type Validation } from '@/presentation/protocols/validation'
 
-export interface ValidationStub extends Validation {
+interface IValidationStub extends Validation {
   errorMessage: string
 }
 
-export const makeValidationStub = (): ValidationStub => {
-  class ValidationStub implements ValidationStub {
+export const makeValidationStub = (): IValidationStub => {
+  class ValidationStub implements IValidationStub {
     errorMessage: string
 
     validate (fieldName: string, fieldValue: string): string {
