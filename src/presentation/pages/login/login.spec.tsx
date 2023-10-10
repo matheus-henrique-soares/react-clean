@@ -1,9 +1,10 @@
 import React from 'react'
 import { faker } from '@faker-js/faker'
-import { type RenderResult, render, cleanup, fireEvent } from '@testing-library/react'
+import { type RenderResult, render, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import Login from './login'
 import { ValidationStub } from '@/presentation/test/mock-validation'
 import { AuthenticationSpy } from '@/presentation/test/mock-authentication'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 type SutTypes = {
   sut: RenderResult
@@ -106,11 +107,22 @@ describe('Login component.', () => {
     simulateValidSubmit(sut)
     expect(authenticationSpy.callsCount).toBe(1)
   })
-  test('Should not call Authentication if form is invalid.', () => {
+  test('Should not call Authentication if form is invalid.', async () => {
     const validationError = faker.word.words()
     const { sut, authenticationSpy } = makeSut({ ValidationError: validationError })
     populateEmailField(sut)
     fireEvent.submit(sut.getByTestId('form'))
     expect(authenticationSpy.callsCount).toBe(0)
+  })
+  test('Should present error if authentication fails.', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
+    simulateValidSubmit(sut)
+    const errorWrap = sut.getByTestId('error-wrap')
+    await waitFor(() => errorWrap)
+    expect(errorWrap.childElementCount).toBe(1)
+    const mainError = sut.getByTestId('main-error')
+    expect(mainError.textContent).toBe(error.message)
   })
 })
