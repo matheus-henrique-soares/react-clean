@@ -4,9 +4,11 @@ import { type Authentication, type AuthenticationParams } from '@/domain/usecase
 
 export class AuthenticationSpy implements Authentication {
   params: AuthenticationParams
+  callsCount = 0
 
   async auth (authenticationParams: AuthenticationParams): Promise<AccountModel> {
     this.params = authenticationParams
+    this.callsCount++
     return await new Promise(resolve => { resolve(mockAccountModel()) })
   }
 }
