@@ -4,7 +4,8 @@ import { type AccountModel } from '@/domain/models'
 import { type AuthenticationParams, type Authentication } from '@/domain/usecases'
 
 export class RemoteAuthentication implements Authentication {
-  constructor (private readonly url: string,
+  constructor (
+    private readonly url: string,
     private readonly httpPostClient: HttpPostClient<AuthenticationParams, AccountModel>
   ) {}
 
