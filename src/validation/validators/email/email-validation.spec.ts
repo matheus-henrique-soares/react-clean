@@ -1,29 +1,18 @@
+import { InvalidFieldError } from '@/validation/errors'
+import { type FieldValidation } from '@/validation/protocols/field-validation'
+import { EmailValidation } from './email-validation'
+import { faker } from '@faker-js/faker'
+
 type SutTypes = {
-  sut: EmailValidation
+  sut: FieldValidation
 }
 
-interface EmailValidation {
-  validate: (email: string) => Error
-}
-
-class EmailValidationError extends Error {
-  constructor () {
-    super('invalid email')
-    this.name = 'EmailValidationError'
-  }
-}
-
-const makeEmailValidation = (): EmailValidation => {
-  class EmailValidationStub implements EmailValidation {
-    validate (email: string): Error {
-      return new EmailValidationError()
-    }
-  }
-  return new EmailValidationStub()
+const makeEmailValidation = (email: string): FieldValidation => {
+  return new EmailValidation(email)
 }
 
 const makeSut = (): SutTypes => {
-  const sut = makeEmailValidation()
+  const sut = makeEmailValidation('email')
   return {
     sut
   }
@@ -32,7 +21,12 @@ const makeSut = (): SutTypes => {
 describe('Email Validation', () => {
   test('should return an error if email is invalid.', () => {
     const { sut } = makeSut()
-    const error = sut.validate('')
-    expect(error).toEqual(new EmailValidationError())
+    const error = sut.validate(faker.word.words())
+    expect(error).toEqual(new InvalidFieldError('email'))
+  })
+  test('should return falsy if email is valid.', () => {
+    const { sut } = makeSut()
+    const error = sut.validate(faker.internet.email())
+    expect(error).toBeFalsy()
   })
 })
