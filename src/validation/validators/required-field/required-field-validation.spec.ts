@@ -1,17 +1,13 @@
 import { RequiredFieldError } from '@/validation/errors'
 import { type FieldValidation } from '@/validation/protocols/field-validation'
+import { RequiredFieldValidation } from './required-field-validation'
+import { faker } from '@faker-js/faker'
 
 type SutTypes = {
   sut: FieldValidation
 }
 
 const makeRequiredFieldValidation = (fieldName: string): FieldValidation => {
-  class RequiredFieldValidation implements FieldValidation {
-    constructor (readonly field: string) {}
-    validate (value: string): Error {
-      return new RequiredFieldError()
-    }
-  }
   return new RequiredFieldValidation(fieldName)
 }
 
@@ -27,5 +23,10 @@ describe('RequiredFieldValidation', () => {
     const { sut } = makeSut('email')
     const error = sut.validate('')
     expect(error).toEqual(new RequiredFieldError())
+  })
+  test('Should return falsy if field is not empty.', () => {
+    const { sut } = makeSut('email')
+    const error = sut.validate(faker.internet.email())
+    expect(error).toBeFalsy()
   })
 })
