@@ -20,4 +20,9 @@ describe('MinLengthValidation', () => {
     const error = sut.validate('123')
     expect(error).toEqual(new InvalidFieldError('field'))
   })
+  test('should return falsy if value is valid.', () => {
+    const { sut } = makeSut()
+    const error = sut.validate('12345')
+    expect(error).toBeFalsy()
+  })
 })
