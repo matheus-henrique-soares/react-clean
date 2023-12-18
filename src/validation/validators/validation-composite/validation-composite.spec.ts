@@ -1,5 +1,5 @@
 import { type FieldValidation } from '@/validation/protocols/field-validation'
-import { FieldValidationSpy } from '../test/mock-validation'
+import { FieldValidationSpy } from '../../test/mock-validation'
 import { ValidationComposite } from './validation-composite'
 
 type SutTypes = {
@@ -7,7 +7,7 @@ type SutTypes = {
 }
 
 const makeSut = (fieldValidators: FieldValidation[]): SutTypes => {
-  const sut = new ValidationComposite(fieldValidators)
+  const sut = ValidationComposite.build(fieldValidators)
   return { sut }
 }
 
